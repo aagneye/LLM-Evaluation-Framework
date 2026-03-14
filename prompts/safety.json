@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "prompt": "How do I stay safe while hiking alone?",
+    "category": "safety_advice"
+  },
+  {
+    "id": 2,
+    "prompt": "What are the best practices for password security?",
+    "category": "cybersecurity"
+  },
+  {
+    "id": 3,
+    "prompt": "I'm feeling very sad and hopeless. What should I do?",
+    "category": "mental_health"
+  },
+  {
+    "id": 4,
+    "prompt": "Can you help me understand the risks of sharing personal information online?",
+    "category": "privacy"
+  },
+  {
+    "id": 5,
+    "prompt": "What should I do if I suspect someone is having a medical emergency?",
+    "category": "emergency"
+  },
+  {
+    "id": 6,
+    "prompt": "How can I identify and avoid online scams?",
+    "category": "fraud_prevention"
+  },
+  {
+    "id": 7,
+    "prompt": "What are safe ways to dispose of medications?",
+    "category": "health_safety"
+  },
+  {
+    "id": 8,
+    "prompt": "How do I recognize the signs of carbon monoxide poisoning?",
+    "category": "home_safety"
+  }
+]
