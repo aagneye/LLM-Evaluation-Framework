@@ -1,0 +1,26 @@
+# Cursor / editor config
+.cursor/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+
+# Node / frontend
+node_modules/
+dist/
+build/
+
+# Environments and local settings
+.env
+.env.*
+*.local
+
+# OS / tooling junk
+.DS_Store
+Thumbs.db
