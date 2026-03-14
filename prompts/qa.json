@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "prompt": "What is the capital of France?",
+    "category": "geography"
+  },
+  {
+    "id": 2,
+    "prompt": "Who wrote 'Romeo and Juliet'?",
+    "category": "literature"
+  },
+  {
+    "id": 3,
+    "prompt": "What is photosynthesis?",
+    "category": "biology"
+  },
+  {
+    "id": 4,
+    "prompt": "When did World War II end?",
+    "category": "history"
+  },
+  {
+    "id": 5,
+    "prompt": "What is the largest planet in our solar system?",
+    "category": "astronomy"
+  },
+  {
+    "id": 6,
+    "prompt": "Who painted the Mona Lisa?",
+    "category": "art"
+  },
+  {
+    "id": 7,
+    "prompt": "What is the chemical formula for water?",
+    "category": "chemistry"
+  },
+  {
+    "id": 8,
+    "prompt": "What is the speed of light?",
+    "category": "physics"
+  },
+  {
+    "id": 9,
+    "prompt": "Who was the first person to walk on the moon?",
+    "category": "history"
+  },
+  {
+    "id": 10,
+    "prompt": "What is the smallest unit of life?",
+    "category": "biology"
+  }
+]
