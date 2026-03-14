@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "prompt": "If a train travels 100 km in 2 hours, what is its average speed?",
+    "category": "math"
+  },
+  {
+    "id": 2,
+    "prompt": "Explain why the sky is blue.",
+    "category": "science"
+  },
+  {
+    "id": 3,
+    "prompt": "If all roses are flowers and some flowers fade quickly, can we conclude that some roses fade quickly?",
+    "category": "logic"
+  },
+  {
+    "id": 4,
+    "prompt": "A farmer has 17 sheep and all but 9 die. How many are left?",
+    "category": "math"
+  },
+  {
+    "id": 5,
+    "prompt": "What is the next number in this sequence: 2, 4, 8, 16, ?",
+    "category": "pattern"
+  },
+  {
+    "id": 6,
+    "prompt": "If you have a 3-gallon jug and a 5-gallon jug, how can you measure exactly 4 gallons?",
+    "category": "problem_solving"
+  },
+  {
+    "id": 7,
+    "prompt": "Explain the difference between correlation and causation with an example.",
+    "category": "statistics"
+  },
+  {
+    "id": 8,
+    "prompt": "A bat and a ball cost $1.10 in total. The bat costs $1.00 more than the ball. How much does the ball cost?",
+    "category": "math"
+  }
+]
