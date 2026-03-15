@@ -1,12 +1,17 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 from app.database import get_db
 from app.models import Evaluation, ModelResponse, Prompt
 from app.schemas.evaluation_schema import EvaluationCreate, EvaluationResponse
+from app.schemas.leaderboard_schema import LeaderboardResponse, ModelMetricsDetail
 from app.services.evaluation_engine import EvaluationEngine
 from app.services.llm_judge import LLMJudge
 from app.services.metrics_service import MetricsService
+from app.services.leaderboard_service import LeaderboardService
+import structlog
+
+logger = structlog.get_logger(__name__)
 
 router = APIRouter(prefix="/evaluation", tags=["evaluation"])
 
@@ -71,16 +76,44 @@ def evaluate_response(
         raise HTTPException(status_code=400, detail="Invalid evaluation method")
 
 
-@router.get("/leaderboard")
-def get_leaderboard(db: Session = Depends(get_db)):
-    """Get model leaderboard with average scores."""
-    return MetricsService.get_leaderboard(db)
+@router.get("/leaderboard", response_model=LeaderboardResponse)
+def get_leaderboard(
+    dataset: Optional[str] = Query(None, description="Filter by dataset name"),
+    metric: Optional[str] = Query(None, description="Sort by specific metric"),
+    limit: int = Query(50, ge=1, le=100, description="Number of entries to return"),
+    db: Session = Depends(get_db)
+):
+    """
+    Get model leaderboard with average scores.
+    
+    Supports filtering by dataset and sorting by specific metrics.
+    """
+    logger.info("leaderboard_requested", dataset=dataset, metric=metric, limit=limit)
+    
+    service = LeaderboardService(db)
+    return service.get_leaderboard(
+        dataset_filter=dataset,
+        metric_filter=metric,
+        limit=limit
+    )
 
 
-@router.get("/metrics/{model_name}")
-def get_model_metrics(model_name: str, db: Session = Depends(get_db)):
+@router.get("/metrics/{model_name}", response_model=ModelMetricsDetail)
+def get_model_metrics(
+    model_name: str,
+    dataset: Optional[str] = Query(None, description="Filter by dataset"),
+    db: Session = Depends(get_db)
+):
     """Get detailed metrics for a specific model."""
-    return MetricsService.get_model_metrics(db, model_name)
+    logger.info("model_metrics_requested", model_name=model_name, dataset=dataset)
+    
+    service = LeaderboardService(db)
+    metrics = service.get_model_details(model_name, dataset_filter=dataset)
+    
+    if not metrics:
+        raise HTTPException(status_code=404, detail="Model not found or no evaluations")
+    
+    return metrics
 
 
 @router.get("/experiment/{experiment_id}/summary")
