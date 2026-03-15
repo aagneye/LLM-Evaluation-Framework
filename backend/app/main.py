@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
 from sqlalchemy.exc import SQLAlchemyError
 from app.database import init_db
-from app.api import prompts, responses, experiments, evaluation, human_feedback, auth, arena
+from app.api import prompts, responses, experiments, evaluation, human_feedback, auth, arena, comparison
 from app.core.logging import setup_logging, get_logger
 from app.core.middleware import CorrelationIdMiddleware, RequestLoggingMiddleware
 from app.core.exceptions import BaseAPIException
@@ -49,6 +49,7 @@ app.include_router(experiments.router)
 app.include_router(evaluation.router)
 app.include_router(human_feedback.router)
 app.include_router(arena.router)
+app.include_router(comparison.router)
 
 
 @app.on_event("startup")
