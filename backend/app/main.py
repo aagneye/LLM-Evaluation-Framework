@@ -1,9 +1,18 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.exceptions import RequestValidationError
+from sqlalchemy.exc import SQLAlchemyError
 from app.database import init_db
 from app.api import prompts, responses, experiments, evaluation, human_feedback
 from app.core.logging import setup_logging, get_logger
 from app.core.middleware import CorrelationIdMiddleware, RequestLoggingMiddleware
+from app.core.exceptions import BaseAPIException
+from app.core.error_handlers import (
+    base_exception_handler,
+    validation_exception_handler,
+    sqlalchemy_exception_handler,
+    generic_exception_handler,
+)
 from app.config import get_settings
 
 settings = get_settings()
@@ -16,6 +25,11 @@ app = FastAPI(
     description="Production-ready LLM evaluation platform with automated and human grading",
     version="1.0.0"
 )
+
+app.add_exception_handler(BaseAPIException, base_exception_handler)
+app.add_exception_handler(RequestValidationError, validation_exception_handler)
+app.add_exception_handler(SQLAlchemyError, sqlalchemy_exception_handler)
+app.add_exception_handler(Exception, generic_exception_handler)
 
 app.add_middleware(CorrelationIdMiddleware)
 app.add_middleware(RequestLoggingMiddleware)
