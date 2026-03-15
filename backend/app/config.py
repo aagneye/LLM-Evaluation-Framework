@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     environment: str = "development"
     log_level: str = "INFO"
     json_logs: bool = True
+    secret_key: str = "your-secret-key-change-in-production-min-32-chars"
     
     class Config:
         env_file = ".env"
