@@ -6,6 +6,7 @@ from app.database import init_db
 from app.api import prompts, responses, experiments, evaluation, human_feedback, auth, arena, comparison
 from app.core.logging import setup_logging, get_logger
 from app.core.middleware import CorrelationIdMiddleware, RequestLoggingMiddleware
+from app.core.metrics import PrometheusMiddleware, get_metrics
 from app.core.exceptions import BaseAPIException
 from app.core.error_handlers import (
     base_exception_handler,
@@ -33,6 +34,7 @@ app.add_exception_handler(Exception, generic_exception_handler)
 
 app.add_middleware(CorrelationIdMiddleware)
 app.add_middleware(RequestLoggingMiddleware)
+app.add_middleware(PrometheusMiddleware)
 
 app.add_middleware(
     CORSMiddleware,
@@ -81,3 +83,9 @@ def health_check():
     """Health check endpoint."""
     logger.debug("health_check_called")
     return {"status": "healthy"}
+
+
+@app.get("/metrics")
+def metrics():
+    """Prometheus metrics endpoint."""
+    return get_metrics()
