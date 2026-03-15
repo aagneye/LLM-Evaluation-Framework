@@ -2,6 +2,14 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import init_db
 from app.api import prompts, responses, experiments, evaluation, human_feedback
+from app.core.logging import setup_logging, get_logger
+from app.core.middleware import CorrelationIdMiddleware, RequestLoggingMiddleware
+from app.config import get_settings
+
+settings = get_settings()
+
+setup_logging(log_level=settings.log_level, json_logs=settings.json_logs)
+logger = get_logger(__name__)
 
 app = FastAPI(
     title="LLM Evaluation Framework",
@@ -9,7 +17,9 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# CORS middleware
+app.add_middleware(CorrelationIdMiddleware)
+app.add_middleware(RequestLoggingMiddleware)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -18,7 +28,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Include routers
 app.include_router(prompts.router)
 app.include_router(responses.router)
 app.include_router(experiments.router)
@@ -29,7 +38,15 @@ app.include_router(human_feedback.router)
 @app.on_event("startup")
 def startup_event():
     """Initialize database on startup."""
+    logger.info("application_startup", environment=settings.environment)
     init_db()
+    logger.info("database_initialized")
+
+
+@app.on_event("shutdown")
+def shutdown_event():
+    """Cleanup on shutdown."""
+    logger.info("application_shutdown")
 
 
 @app.get("/")
@@ -45,4 +62,5 @@ def root():
 @app.get("/health")
 def health_check():
     """Health check endpoint."""
+    logger.debug("health_check_called")
     return {"status": "healthy"}

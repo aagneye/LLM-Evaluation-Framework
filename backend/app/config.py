@@ -8,6 +8,8 @@ class Settings(BaseSettings):
     openai_api_key: str = ""
     judge_model: str = "gpt-4o-mini"
     environment: str = "development"
+    log_level: str = "INFO"
+    json_logs: bool = True
     
     class Config:
         env_file = ".env"
